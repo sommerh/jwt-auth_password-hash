@@ -42,32 +42,13 @@ User.authenticate = async ({ username, password }) => {
     },
   });
 
-  console.log('🦐🦀🦞USER: ', user);
   if (user) {
-    console.log(
-      '🦐🦀🦞 JWT SIGN: ',
-      jwt.sign({ userId: user.id }, process.env.JWT, { expiresIn: '1h' })
-    );
     return jwt.sign({ userId: user.id }, process.env.JWT, { expiresIn: '1h' });
   }
   const error = Error('bad credentials');
   error.status = 401;
   throw error;
 };
-// User.authenticate = async ({ username, password }) => {
-//   const user = await User.findOne({
-//     where: {
-//       username,
-//       password,
-//     },
-//   });
-//   if (user) {
-//     return user.id;
-//   }
-//   const error = Error('bad credentials');
-//   error.status = 401;
-//   throw error;
-// };
 
 const syncAndSeed = async () => {
   await conn.sync({ force: true });
